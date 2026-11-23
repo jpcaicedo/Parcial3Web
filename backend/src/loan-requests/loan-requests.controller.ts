@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { requestValidationPipe } from "../common/request-validation.pipe";
 import { CreateLoanRequestDto } from "./dto/create-loan-request.dto";
 import { LoanRequestsService } from "./loan-requests.service";
+import { ListLoanRequestsDto } from "./dto/list-loan-requests.dto";
+
 
 @UseGuards(AuthGuard("jwt"))
 @Controller("loan-requests")
@@ -10,9 +12,8 @@ export class LoanRequestsController {
   constructor(private readonly service: LoanRequestsService) {}
 
   @Get()
-  findAll() {
-    // TODO BACK-A: recibir la consulta con @Query, validarla con el pipe y pasar el filtro.
-    return this.service.findAll();
+  findAll() {@Query(requestValidationPipe) query:ListLoanRequestsDto) {
+    return this.service.findAll(query.toolId); 
   }
 
   @Get(":id")
