@@ -12,7 +12,7 @@ export class LoanRequestsController {
   constructor(private readonly service: LoanRequestsService) {}
 
   @Get()
-  findAll() {@Query(requestValidationPipe) query:ListLoanRequestsDto) {
+  findAll(@Query(requestValidationPipe) query:ListLoanRequestsDto) {
     return this.service.findAll(query.toolId); 
   }
 
